@@ -27,6 +27,7 @@ include 'lib/koneksi.php';
         <ul id="menuList" class="menulist">
             <li><a href="index.php" style="font-weight: bold;">Beranda</a></li>
             <li><a href="pemesanan.php">Pemesanan</a></li>
+            <li><a href="daftar.php">Daftar</a></li>
             <li class="dropdown"><a href="tanjung-duriat.php">Tanjung Duriat <svg id="chevron-down" class="chevron-down" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline></svg></a> 
                 <ul class="dropdown-menu">
