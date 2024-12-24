@@ -1,83 +1,77 @@
 <?php
-include 'lib/koneksi.php';
+$hostname = 'localhost';
+$username = 'root';
+$password = '';
+$database_name = 'jatigede';
 
-$id_pemesanan = htmlentities($_GET['id_pemesanan']);
+$db = mysqli_connect($hostname, $username, $password, $database_name);
 
-$sql = "SELECT * FROM pemesanan where id_pemesanan = '$id_pemesanan' and is_deleted=0";
+$id_pemesanan = htmlentities($_GET['id']);
 
-$query = mysqli_query($db,$sql);
+$sql = "SELECT * FROM pemesanan where id = '$id_pemesanan'";
 
-if(mysqli_num_rows($query)==0)
-{
-    echo 'tidak ada'; exit;
-}else{
-    $detail = mysqli_fetch_row($query);
+$query = mysqli_query($db, $sql);
+date_default_timezone_set('Asia/Jakarta');
+
+if (mysqli_num_rows($query) == 0) {
+   echo 'tidak ada';
+   exit;
+} else {
+   $detail = mysqli_fetch_row($query);
 ?>
 
-<main class="flex-shrink-0">
-  <div class="container">
-    <form method="post" action="lib/proses.php">
-<div class="card mt-2">
-  <div class="card-header bg-dark text-white">
-    Detail Pemesanan Paket Wisata #<?=$detail[0]?>
-  </div>
-  <div class="card-body">
-	<div class="mb-3">
-	  <label for="nama_pemesanan" class="form-label">Nama Lengkap</label>
-	  <div id="nama_pemesan"><?=$detail[1]?></div>
-	</div>
-	<div class="mb-3">
-	  <label for="hp_pemesan" class="form-label">Nomor Handphone</label>
-	  <div id="hp_pemesan"><?=$detail[2]?></div>
-	</div>
-	<div class="mb-3">
-	  <label for="waktu_wisata" class="form-label">Waktu Mulai Perjalanan</label>
-	  <div id="waktu_wisata"><?=$detail[3]?></div>
-	</div>
-	<div class="mb-3">
-	  <label for="hari_wisata" class="form-label">Hari Wisata</label>
-	  <div id="hari_wisata"><?=$detail[4]?></div>
-	</div>
-	<div class="mb-3">
-	    <div class="form-check">
-		  <input class="form-check-input" type="checkbox" name="paket_inap" value="1" id="paket_inap" <?=($detail[5]==1)?'checked':''?> disabled>
-		  <label class="form-check-label" for="paket_inap">
-			Penginapan (Rp. 1.000.000)
-		  </label>
-		</div>
-	</div>
-	<div class="mb-3">
-	    <div class="form-check">
-		  <input class="form-check-input" type="checkbox" name="paket_transport" value="1" id="paket_transport" <?=($detail[6]==1)?'checked':''?> disabled>
-		  <label class="form-check-label" for="paket_transport">
-			Transportasi (Rp. 1.200.000)
-		  </label>
-		</div>
-	</div>
-	<div class="mb-3">
-	    <div class="form-check">
-		  <input class="form-check-input" type="checkbox" name="paket_makan" value="1" id="paket_makan" <?=($detail[7]==1)?'checked':''?> disabled>
-		  <label class="form-check-label" for="paket_makan">
-			Service/ Makan (Rp. 500.000)
-		  </label>
-		</div>
-	</div>
-	<div class="mb-3">
-	  <label for="jumlah_peserta" class="form-label">Jumlah Peserta</label>
-	   <div id="jumlah_peserta"><?=$detail[8]?></div>
-	 </div>
-	<div class="mb-3">
-	  <label for="total" class="form-label">Total Tagihan</label>
-	  <div id="total">Rp. <?=number_format($detail[9],0,',','.')?></div>
-	</div>
-	<div class="mb-3">
-	  <label for="created_at" class="form-label">Waktu Pemesanan</label>
-	  <div id="created_at"><?=$detail[10]?></div>
-	</div>
-  </div>
-  <div class="card-footer d-print-none">
-    <a href="index.php?aksi=pesan" class="btn btn-primary">Buat Pesanan Baru</a>
-	<a href="#" onclick="window.print()" class="btn btn-success">Cetak</a>
-  </div>
-</div>
-<?php } ?>
+<main>
+            <h2>Detail Pemesanan #<?=$detail[0]?></h2>
+            <form method="post" action="lib/proses.php">
+                <!-- Input Nama -->
+                <label for="nama">Nama Lengkap</label>
+                <p><?=$detail[1]?></p>
+
+                <!-- Input Handphone -->
+                <label for="handphone">Nomor Handphone</label>
+                <p><?=$detail[2]?></p>
+
+                <!-- Input Waktu -->
+                <label for="waktu">Waktu Mulai Perjalanan</label>
+                <p><?=$detail[3]?></p>
+
+                <!-- Input Hari Wisata -->
+                <label for="hari">Hari Wisata</label>
+                <p><?=$detail[4]?></p>
+
+                <!-- Paket Tambahan -->
+                <fieldset>
+                    <legend>Pilihan Paket Tambahan</legend>
+                    <label>
+                        <input name="paket_inap" type="checkbox" <?=($detail[5]==1)?'checked':''?> disabled class="paket" value="1000000" onchange="hitungTotal()"> Penginapan (Rp. 1.000.000)
+                    </label><br>
+                    <label>
+                        <input name="paket_transport" <?=($detail[6]==1)?'checked':''?> disabled type="checkbox" class="paket" value="1200000" onchange="hitungTotal()"> Transportasi (Rp. 1.200.000)
+                    </label><br>
+                    <label>
+                        <input name="paket_makan" <?=($detail[7]==1)?'checked':''?> disabled type="checkbox" class="paket" value="500000" onchange="hitungTotal()"> Service/Makan (Rp. 500.000)
+                    </label>
+                </fieldset>
+
+                <!-- Jumlah Peserta -->
+                <label for="peserta">Jumlah Peserta</label>
+                <p><?=$detail[8]?></p>
+
+                <!-- Harga Paket -->
+                <label for="harga">Total Tagihan</label>
+                <p><?=$detail[9]?></p>
+
+                <!-- Total Tagihan -->
+                <label for="total">Tanggal Pemesanan</label>
+                <p><?=$detail[10]?></p>
+
+                <!-- Tombol Simpan dan Ulangi -->
+                <div class="buttons">
+                    <button class="btn btn-primary">Buat Pesanan Baru</button>
+                    <button onclick="window.print()" class="btn btn-secondary">Cetak</button>
+                </div>
+            </form>
+        </main>
+    <?php } ?>
+</body>
+</html>
