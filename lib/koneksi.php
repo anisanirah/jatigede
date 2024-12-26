@@ -1,16 +1,13 @@
 <?php
+$server = "localhost";
+$user = "root";
+$password = "";
+$nama_database = "jatigede";
 
-$hostname = 'localhost';
-$username = 'root';
-$password = '';
-$db_name = 'jatigede';
+$db = mysqli_connect($server, $user, $password, $nama_database);
 
-$db = mysqli_connect($hostname, $username, $password, $db_name);
-
-// if($db->connect_error){
-//     echo 'error';
-// }else{
-//     echo 'berhasil';
-// }
+if( !$db ){
+    die("Gagal terhubung dengan database: " . mysqli_connect_error());
+}
 
 ?>

@@ -97,14 +97,14 @@
        <h1>Daftar Pemesanan</h1>
        <table class="table">
            <thead>
-               <tr>
-                   <th>No</th>
-                   <th>Nama Pemesan</th>
-                   <th>Nomor HP</th>
-                   <th>Tanggal Berangkat</th>
-                   <th>Total Tagihan</th>
-                   <th>Aksi</th>
-               </tr>
+            <tr>
+               <th scope="col">No</th>
+               <th scope="col">Nama Pemesan</th>
+               <th scope="col">Nomor HP</th>
+               <th scope="col">Tanggal Berangkat</th>
+               <th scope="col">Total Tagihan</th>
+               <th scope="col">Detail</th>
+            </tr>
            </thead>
            <tbody>
                <?php
@@ -118,9 +118,9 @@
                    <td><?=$detail['waktu_wisata']?></td>
                    <td>Rp <?=number_format($detail['total_tagihan'], 0, ',', '.')?></td>
                    <td>
-                       <a href="index.php?aksi=detail&id_pemesanan=<?=$detail['id_pemesanan']?>">Detail</a>
+                       <a href="detail.php?id_pemesanan=<?=$detail['id_pemesanan']?>">Detail</a>
                        <a href="index.php?aksi=edit&id_pemesanan=<?=$detail['id_pemesanan']?>">Edit</a>
-                       <a href="hapus.php?id_pemesanan=<?=$detail['id_pemesanan']?>" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
+                       <a href="lib/hapus.php?id_pemesanan=<?=$detail['id_pemesanan']?>" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
                    </td>
                </tr>
                <?php

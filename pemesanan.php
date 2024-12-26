@@ -17,93 +17,137 @@
             </nav>
         </header>
 
-        <main>
-            <h2>Form Pemesanan Paket Wisata</h2>
-            <form method="post" action="lib/proses.php">
-                <!-- Input Nama -->
-                <label for="nama">Nama Lengkap</label>
-                <input type="text" name="nama_pemesanan" id="nama" placeholder="Nama Lengkap Sesuai Tanda Pengenal" required>
+       <main class="flex-shrink-0">
+  <div class="container">
+    <form method="post" action="lib/proses.php">
+<div class="card mt-2">
+  <div class="card-header bg-dark text-white">
+    Form Pemesanan Paket Wisata
+  </div>
+  <div class="card-body">
+	<div class="mb-3">
+	  <label for="nama_pemesanan" class="form-label">Nama Lengkap</label>
+	  <input type="text" class="form-control" id="nama_pemesanan" name="nama_pemesanan" placeholder="Nama Lengkap Sesuai Tanda Pengenal" required>
+	</div>
+	<div class="mb-3">
+	  <label for="hp_pemesan" class="form-label">Nomor Handphone</label>
+	  <input type="text" class="form-control" id="hp_pemesan" name="hp_pemesan" placeholder="Nomor Handphone 08..." required>
+	</div>
+	<div class="mb-3">
+	  <label for="waktu_wisata" class="form-label">Waktu Mulai Perjalanan</label>
+	  <input type="date" class="form-control" id="waktu_wisata" name="waktu_wisata" placeholder="Waktu Mulai Perjalanan" required>
+	</div>
+	<div class="mb-3">
+	  <label for="hari_wisata" class="form-label">Hari Wisata</label>
+	  <input type="number" class="form-control" id="hari_wisata" value="1" name="hari_wisata" placeholder="Jumlah Hari Perjalanan" required>
+	</div>
+	<div class="mb-3">
+	    <div class="form-check">
+		  <input class="form-check-input" type="checkbox" name="paket_inap" value="1" id="paket_inap">
+		  <label class="form-check-label" for="paket_inap">
+			Penginapan (Rp. 1.000.000)
+		  </label>
+		</div>
+	</div>
+	<div class="mb-3">
+	    <div class="form-check">
+		  <input class="form-check-input" type="checkbox" name="paket_transport" value="1" id="paket_transport">
+		  <label class="form-check-label" for="paket_transport">
+			Transportasi (Rp. 1.200.000)
+		  </label>
+		</div>
+	</div>
+	<div class="mb-3">
+	    <div class="form-check">
+		  <input class="form-check-input" type="checkbox" name="paket_makan" value="1" id="paket_makan">
+		  <label class="form-check-label" for="paket_makan">
+			Service/ Makan (Rp. 500.000)
+		  </label>
+		</div>
+	</div>
+	<div class="mb-3">
+	  <label for="jumlah_peserta" class="form-label">Jumlah Peserta</label>
+	  <input type="number" class="form-control" id="jumlah_peserta" value="1" name="jumlah_peserta" placeholder="Jumlah Hari Perjalanan" required>
+	</div>
+	<div class="mb-3">
+	  <label for="harga" class="form-label">Harga Paket</label>
+	  <input type="number" class="form-control" id="harga" name="harga" placeholder="Harga Paket Perjalanan" readonly>
+	</div>
+	<div class="mb-3">
+	  <label for="total" class="form-label">Total Tagihan</label>
+	  <input type="number" class="form-control" id="total" name="total" placeholder="Total Paket Perjalanan" readonly>
+	</div>
+  </div>
+  <div class="card-footer">
+    <input type="submit" class="btn btn-primary" value="Simpan">
+	<input type="reset" class="btn btn-danger" value="Ulangi">
+  </div>
+</div>
+<script>
+//tentukan konstanta biaya masing-masing
+const paket_inap = 1000000;
+const paket_transport = 1200000;
+const paket_makan = 500000;
 
-                <!-- Input Handphone -->
-                <label for="handphone">Nomor Handphone</label>
-                <input type="text" name="hp_pemesan" id="handphone" placeholder="Nomor Handphone 08..." required>
+function updateTotalCost()
+{
+	//inisisi harga paket 0
+	let totalCost = 0;
+	
+	//referensi dari checkbox
+	const inapCheckbox = document.getElementById('paket_inap');
+	const transportCheckbox = document.getElementById('paket_transport');
+	const makanCheckbox = document.getElementById('paket_makan');
+	
+	//jika inap checkbox ter-check
+	if(inapCheckbox.checked)
+	{
+		totalCost+=paket_inap;
+	}
+	
+	//jika transport checkbox ter-check
+	if(transportCheckbox.checked)
+	{
+		totalCost+=paket_transport;
+	}
+	
+	//jika makan checkbox ter-check
+	if(makanCheckbox.checked)
+	{
+		totalCost+=paket_makan;
+	}
+	
+	document.getElementById('harga').value = totalCost;
+}
 
-                <!-- Input Waktu -->
-                <label for="waktu">Waktu Mulai Perjalanan</label>
-                <input type="date" name="waktu_wisata" id="waktu" required>
+function updateTotal()
+{
+	let TotalTagihan = 0;
+	
+	var hari_wisata = document.getElementById('hari_wisata').value;
+	var jumlah_peserta = document.getElementById('jumlah_peserta').value;
+	var harga = document.getElementById('harga').value;
+	
+	TotalTagihan = hari_wisata * jumlah_peserta * harga;
+	
+	document.getElementById('total').value = TotalTagihan;
+}
 
-                <!-- Input Hari Wisata -->
-                <label for="hari">Hari Wisata</label>
-                <input type="number" name="hari_wisata" id="hari" value="1" min="1" required>
+document.getElementById('paket_inap').addEventListener('change', updateTotalCost);
+document.getElementById('paket_transport').addEventListener('change', updateTotalCost);
+document.getElementById('paket_makan').addEventListener('change', updateTotalCost);
 
-                <!-- Paket Tambahan -->
-                <fieldset>
-                    <legend>Pilihan Paket Tambahan</legend>
-                    <label>
-                        <input name="paket_inap" type="checkbox" class="paket" value="1000000" onchange="hitungTotal()"> Penginapan (Rp. 1.000.000)
-                    </label><br>
-                    <label>
-                        <input name="paket_transport" type="checkbox" class="paket" value="1200000" onchange="hitungTotal()"> Transportasi (Rp. 1.200.000)
-                    </label><br>
-                    <label>
-                        <input name="paket_makan" type="checkbox" class="paket" value="500000" onchange="hitungTotal()"> Service/Makan (Rp. 500.000)
-                    </label>
-                </fieldset>
+document.getElementById('paket_inap').addEventListener('change', updateTotal);
+document.getElementById('paket_transport').addEventListener('change', updateTotal);
+document.getElementById('paket_makan').addEventListener('change', updateTotal);
 
-                <!-- Jumlah Peserta -->
-                <label for="peserta">Jumlah Peserta</label>
-                <input name="jumlah_peserta" type="number" id="peserta" value="1" min="1" onchange="hitungTotal()">
+document.getElementById('hari_wisata').addEventListener('change', updateTotalCost);
+document.getElementById('jumlah_peserta').addEventListener('change', updateTotalCost);
 
-                <!-- Harga Paket -->
-                <label for="harga">Harga Paket</label>
-                <input type="text" id="harga" value="0" readonly>
+document.getElementById('hari_wisata').addEventListener('change', updateTotal);
+document.getElementById('jumlah_peserta').addEventListener('change', updateTotal);
 
-                <!-- Total Tagihan -->
-                <label for="total">Total Tagihan</label>
-                <input name="total" type="text" id="total" value="0" readonly>
-
-                <!-- Tombol Simpan dan Ulangi -->
-                <div class="buttons">
-                    <button type="submit" class="btn-primary">Simpan</button>
-                    <button type="reset" class="btn-secondary" onclick="resetTotal()">Ulangi</button>
-                </div>
-            </form>
-        </main>
-
-        <footer>
-            <p>Wisata Jatigede © 2024.</p>
-        </footer>
-    </div>
-
-    <!-- JavaScript -->
-    <script>
-        // Fungsi menghitung total harga paket dan tagihan
-        function hitungTotal() {
-            const checkboxes = document.querySelectorAll('.paket');
-            const jumlahPeserta = parseInt(document.getElementById('peserta').value);
-
-            let hargaPaket = 0;
-
-            // Menjumlahkan harga dari paket yang dicentang
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    hargaPaket += parseInt(checkbox.value);
-                }
-            });
-
-            // Hitung total tagihan berdasarkan jumlah peserta
-            const totalTagihan = hargaPaket * jumlahPeserta;
-
-            // Tampilkan hasil ke input Harga Paket dan Total Tagihan
-            document.getElementById('harga').value = hargaPaket.toLocaleString('id-ID');
-            document.getElementById('total').value = totalTagihan.toLocaleString('id-ID');
-        }
-
-        // Fungsi reset nilai harga dan total tagihan
-        function resetTotal() {
-            document.getElementById('harga').value = "0";
-            document.getElementById('total').value = "0";
-        }
-    </script>
-</body>
-</html>
+updateTotalCost();
+updateTotal();
+</script>  </div>
+</main>

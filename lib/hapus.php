@@ -1,19 +1,14 @@
 <?php
-include 'lib/koneksi.php';
+include 'koneksi.php';
 
-$id_pemesanan = $_GET['id_pemesanan'];
-$sql = "DELETE FROM pemesanan WHERE id_pemesanan='$id_pemesanan'";
-$query = mysqli_query($db, $sql);
+$id_pemesanan = htmlentities($_GET['id_pemesanan']);
 
-if($query) {
-    echo "<script>
-            alert('Data berhasil dihapus');
-            window.location.href='daftar.php';
-          </script>";
-} else {
-    echo "<script>
-            alert('Data gagal dihapus');
-            window.location.href='daftar.php';
-          </script>";
-}
-?>
+    $sql_hapus = "delete from pemesanan where id_pemesanan ='$id_pemesanan'";
+    $query_hapus = mysqli_query($db,$sql_hapus);
+    //var_dump($sql_hapus); exit;
+    if($query_hapus)
+    {
+        header('Location: ../daftar.php');
+    }else{
+        header('Location: index.php?aksi=detail&id_pemesanan='.$id_pemesanan);
+    }
