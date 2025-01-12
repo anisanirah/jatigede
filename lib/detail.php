@@ -1,6 +1,6 @@
 <?php
 include 'koneksi.php';
-
+//menghubungkan file koneksi data base
 $id_pemesanan = htmlentities($_GET['id_pemesanan']);
 
 $sql = "SELECT * FROM pemesanan where id_pemesanan = '$id_pemesanan'";
