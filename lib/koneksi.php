@@ -1,4 +1,5 @@
 <?php
+// Koneksi ke database
 $server = "localhost";
 $user = "root";
 $password = "";
