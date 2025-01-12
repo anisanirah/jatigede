@@ -1,6 +1,6 @@
 <?php
 include 'koneksi.php';
-
+//menghubungkan file koneksi data base
 if(isset($_POST['nama_pemesanan'])){
     //eksekusi simpan
     //echo '<pre>';
